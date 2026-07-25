@@ -304,9 +304,17 @@ body {
   border-radius: 8px;
 }
 
+.selected-products-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
 .selected-products h2 {
   font-size: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 #selectedProductsList {
@@ -361,6 +369,29 @@ body {
 }
 
 .remove-selected-btn:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.clear-selected-btn {
+  padding: 8px 12px;
+  border: 1px solid #000;
+  border-radius: 999px;
+  background: transparent;
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.clear-selected-btn:hover {
+  background: #000;
+  color: #fff;
+}
+
+.clear-selected-btn:focus {
   outline: 2px solid #000;
   outline-offset: 2px;
 }

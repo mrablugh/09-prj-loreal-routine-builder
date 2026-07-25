@@ -6,10 +6,44 @@ const chatForm = document.getElementById("chatForm");
 const chatWindow = document.getElementById("chatWindow");
 const generateRoutineButton = document.getElementById("generateRoutine");
 
+const selectedProductsStorageKey = "lorealRoutineBuilder.selectedProducts";
+
 /* Keep the full product list and selected products in memory */
 let allProducts = [];
 let currentProducts = [];
 let selectedProducts = [];
+
+function saveSelectedProducts() {
+  localStorage.setItem(
+    selectedProductsStorageKey,
+    JSON.stringify(selectedProducts),
+  );
+}
+
+function loadSelectedProducts() {
+  const savedProducts = localStorage.getItem(selectedProductsStorageKey);
+
+  if (!savedProducts) {
+    return [];
+  }
+
+  try {
+    const parsedProducts = JSON.parse(savedProducts);
+    return Array.isArray(parsedProducts) ? parsedProducts : [];
+  } catch (error) {
+    console.error("Could not load saved selected products.", error);
+    return [];
+  }
+}
+
+function clearSelectedProducts() {
+  selectedProducts = [];
+  saveSelectedProducts();
+  renderSelectedProducts();
+  renderProductGrid(currentProducts);
+}
+
+selectedProducts = loadSelectedProducts();
 
 /* Show initial placeholder until user selects a category */
 productsContainer.innerHTML = `
@@ -55,6 +89,7 @@ function toggleProductSelection(productId) {
     selectedProducts.splice(selectedIndex, 1);
   }
 
+  saveSelectedProducts();
   renderSelectedProducts();
   renderProductGrid(currentProducts);
 }
@@ -155,6 +190,13 @@ selectedProductsList.addEventListener("click", (event) => {
 
   toggleProductSelection(Number(selectedItem.dataset.productId));
 });
+
+/* Let users clear all saved selections at once */
+document
+  .getElementById("clearSelectedProducts")
+  ?.addEventListener("click", () => {
+    clearSelectedProducts();
+  });
 
 /* Filter and display products when category changes */
 categoryFilter.addEventListener("change", async (e) => {
@@ -433,3 +475,5 @@ chatForm.addEventListener("submit", async (event) => {
 generateRoutineButton.addEventListener("click", async () => {
   await generateRoutine();
 });
+
+renderSelectedProducts();
