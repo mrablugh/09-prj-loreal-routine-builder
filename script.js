@@ -95,13 +95,18 @@ function renderProductGrid(products) {
       );
 
       return `
-    <div class="product-card ${isSelected ? "selected" : ""}" data-product-id="${product.id}" role="button" tabindex="0" aria-pressed="${isSelected}">
-      <img src="${product.image}" alt="${product.name}">
-      <div class="product-info">
-        <h3>${product.name}</h3>
-        <p>${product.brand}</p>
+    <div class="product-card-shell">
+      <div class="product-card ${isSelected ? "selected" : ""}" data-product-id="${product.id}" role="button" tabindex="0" aria-pressed="${isSelected}">
+        <img src="${product.image}" alt="${product.name}">
+        <div class="product-info">
+          <h3>${product.name}</h3>
+          <p>${product.brand}</p>
+        </div>
+        <span class="selection-badge">${isSelected ? "Selected" : "Select"}</span>
       </div>
-      <span class="selection-badge">${isSelected ? "Selected" : "Select"}</span>
+      <div class="product-description-popout" aria-hidden="true">
+        <p>${product.description}</p>
+      </div>
     </div>
   `;
     })
