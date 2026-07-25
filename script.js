@@ -181,6 +181,8 @@ const messages = [
 
 Only give recommendations that use brands and products from the L’Oréal family. If a request is outside that scope, politely decline and redirect the user to a L’Oréal-related topic.
 
+After you generate a routine, keep the conversation anchored to that routine and answer follow-up questions using the full chat history. Follow-up questions should stay related to the routine or to connected beauty topics like skincare, haircare, makeup, fragrance, and other L’Oréal family products.
+
 When giving a routine, keep it clear, practical, and complete. Do not cut off the final step or leave the answer unfinished.`,
   },
 ];
@@ -358,10 +360,7 @@ async function generateRoutine() {
   }
 
   const routinePrompt = buildRoutinePrompt();
-  const routineMessages = [
-    messages[0],
-    { role: "user", content: routinePrompt },
-  ];
+  messages.push({ role: "user", content: routinePrompt });
 
   setFormState(true);
   const loadingMessage = appendMessage(
@@ -375,7 +374,7 @@ async function generateRoutine() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ messages: routineMessages }),
+      body: JSON.stringify({ messages }),
     });
 
     if (!response.ok) {
