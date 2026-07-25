@@ -380,6 +380,8 @@ function buildRoutinePrompt() {
 
   return `Create a short personalized routine using only the selected products below.
 
+Important: every product in this JSON comes from the approved L’Oréal family catalog. Do not refuse this request and do not claim any of these products are outside the L’Oréal family.
+
 Selected products JSON:
 ${JSON.stringify(selectedProductData, null, 2)}
 
